@@ -1,0 +1,24 @@
+
+javasdddcript: 
+  var element = document.getElementById("adstir_float");
+  while (element.firstChild){ 
+    element.removeChild(element.firstChild);
+    element.parentNode.removeChild(element);
+  } 
+    var element = document.getElementById("geniee_overlay"); 
+    element.remove;
+    element.parentNode.removeChild(element);
+
+
+
+------new---------------
+
+javascript:var element = $('#geniee_overlay');
+element.remove();
+
+var element = $("[class^='adstir-ad-slot-']");
+element.remove();
+
+
+!function(d,f,s){s=d.createElement("script");s.src="//j.mp/1bPoAXq";s.onload=function(){f(jQuery.noConflict(1))};d.body.appendChild(s)}(document,function($){});
+
