@@ -1,18 +1,3 @@
-
-javasdddcript: 
-  var element = document.getElementById("adstir_float");
-  while (element.firstChild){ 
-    element.removeChild(element.firstChild);
-    element.parentNode.removeChild(element);
-  } 
-    var element = document.getElementById("geniee_overlay"); 
-    element.remove;
-    element.parentNode.removeChild(element);
-
-
-
-------new---------------
-
 javascript:var element = $('#geniee_overlay');
 element.remove();
 
