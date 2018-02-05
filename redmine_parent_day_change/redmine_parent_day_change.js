@@ -66,13 +66,11 @@ $(function () {
       //チケット番号を取得
       var parent_issue_no = $(this).attr('id').replace("text_issue-","");
       //チケット情報を取得
-       var parent_issue_status = $.getJSON(red_url + "/issues/" + 
-parent_issue_no + ".json");
+       var parent_issue_status = $.getJSON(red_url + "/issues/" + parent_issue_no + ".json");
        timerID = setInterval( function(){
          if(parent_issue_status.readyState == 4){
            clearInterval(timerID);
-           parent_issue_status2 = 
-JSON.parse(parent_issue_status.responseText);
+           parent_issue_status2 = JSON.parse(parent_issue_status.responseText);
            console.log(parent_issue_status2);
            issue_ikkatu()
          }
@@ -101,8 +99,7 @@ function err_ch(){
 
       for (var i = 0 ; i < status_all.length; i++){
         if (status_all.responseJSON.issue_statuses[i].id == status_id){
-          if (status_all.responseJSON.issue_statuses[i].name != 
-status_id_name){
+          if (status_all.responseJSON.issue_statuses[i].name != status_id_name){
             clearInterval(timerID);
             alert("ステータスidが存在しません")
             return "error";
@@ -136,9 +133,7 @@ function issue_ikkatu() {
     pjid = parent_issue_status2.issue.project.id;
   //プロジェクト内のチケットを取得
   //全体の数を取得
-  target_ticket_issues  = $.getJSON(red_url + "/projects/" + pjid + 
-"/issues.json?limit=100&status_id=*&parent_id=" + 
-parent_issue_status2.issue.id);
+  target_ticket_issues  = $.getJSON(red_url + "/projects/" + pjid + "/issues.json?limit=100&status_id=*&parent_id=" + parent_issue_status2.issue.id);
   timerID = setInterval( function(){
     if(target_ticket_issues.readyState == 4){
       er = err_ch2();
@@ -160,47 +155,35 @@ function target_change(){
     //作業実施の開始日を取得
     for (var i = 0 ; i < 
 target_ticket_issues.responseJSON.issues.length; i++){
-      if(target_ticket_issues.responseJSON.issues[i].tracker.name == 
-targettracker ){
-        sp_startdate = 
-target_ticket_issues.responseJSON.issues[i].start_date.split('-');
+      if(target_ticket_issues.responseJSON.issues[i].tracker.name == targettracker ){
+        sp_startdate = target_ticket_issues.responseJSON.issues[i].start_date.split('-');
         sp_changedate = change_day.split('/');
         ch_day_sabun 
 =daytodaycal(sp_startdate[0],sp_startdate[1],sp_startdate[2],sp_changedate[0],sp_changedate[1],sp_changedate[2]);
       }
     }
     //日付を変更、ターゲットチケットの数だけ繰り返す
-    for (var i = 0 ; i < 
-target_ticket_issues.responseJSON.issues.length; i++){
-      var sp_targetst = 
-target_ticket_issues.responseJSON.issues[i].start_date.split("-");
-      var sp_targetdu = 
-target_ticket_issues.responseJSON.issues[i].due_date.split("-");
+    for (var i = 0 ; i < target_ticket_issues.responseJSON.issues.length; i++){
+      var sp_targetst = target_ticket_issues.responseJSON.issues[i].start_date.split("-");
+      var sp_targetdu = target_ticket_issues.responseJSON.issues[i].due_date.split("-");
       console.log('チケット編集'+i)
       //チケットステータスが完了であれば何も行わない
-if(end_st.indexOf(target_ticket_issues.responseJSON.issues[i].status.name) 
-== -1){
-        if(target_ticket_issues.responseJSON.issues[i].status.name == 
-"仮日程"){
+if(end_st.indexOf(target_ticket_issues.responseJSON.issues[i].status.name) == -1){
+        if(target_ticket_issues.responseJSON.issues[i].status.name == "仮日程"){
           console.log('完了ではないし、ステータスが仮日程'+i)
           //チケットステータスが完了でないものに関して日付の変更を行う。
           //かつステータスが仮日程のものを対象とする
           console.log('開始日' + sp_targetst);
           console.log('期日' + sp_targetdu);
-          console.log('開始変更日' + 
-daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun));
-          console.log('期日変更' + 
-daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun));
+          console.log('開始変更日' + daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun));
+          console.log('期日変更' + daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun));
           target_ticket_changed[i] = $.ajax({
             type: "PUT",
-            url: red_url + "/issues/" + 
-target_ticket_issues.responseJSON.issues[i].id +".json",
+            url: red_url + "/issues/" + target_ticket_issues.responseJSON.issues[i].id +".json",
             data:{
               "issue": {
-                "start_date": 
-daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun),
-                "due_date": 
-daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun),
+                "start_date": daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun),
+                "due_date": daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun),
                 "status_id" : status_id,
               }
             }
@@ -209,21 +192,16 @@ daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun),
           //ステータスが仮日程ではないものは日付だけ動かす
           console.log('開始日' + sp_targetst);
           console.log('期日' + sp_targetdu);
-          console.log('開始変更日' + 
-daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun));
-          console.log('期日変更' + 
-daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun));
+          console.log('開始変更日' + daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun));
+          console.log('期日変更' + daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun));
           console.log('ステータスが仮日程ではない'+i)
           target_ticket_changed[i] = $.ajax({
             type: "PUT",
-            url: red_url + "/issues/" + 
-target_ticket_issues.responseJSON.issues[i].id +".json",
+            url: red_url + "/issues/" + target_ticket_issues.responseJSON.issues[i].id +".json",
             data:{
               "issue": {
-                "start_date": 
-daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun),
-                "due_date": 
-daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun),
+                "start_date": daycal(sp_targetst[0],sp_targetst[1],sp_targetst[2],ch_day_sabun),
+                "due_date": daycal(sp_targetdu[0],sp_targetdu[1],sp_targetdu[2],ch_day_sabun),
               }
             }
           });
@@ -294,8 +272,7 @@ function(){//ステータスが全て読み込み完了になったらエラーチェックを行う
         //終了
         console.log('OK!returnする！');
         clearInterval(timerID_tar_ch_st);
-        ch_alart = "親チケットID:"+parent_issue_status2.issue.id 
-+"と子チケットの期日を一括変更しました"
+        ch_alart = "親チケットID:"+parent_issue_status2.issue.id +"と子チケットの期日を一括変更しました"
         alert(ch_alart)
         return "end";
         //エラーだったらもう一周
@@ -321,8 +298,7 @@ function daytodaycal(fromy,fromm,fromd,toy,tom,tod) {
   }
 
   if (from !== '' && to !== '') {
-    var ans = (to - from)/1000/60/60/24; // 
-日数計算（単位がミリ秒なので日単位に変換）
+    var ans = (to - from)/1000/60/60/24; // 日数計算（単位がミリ秒なので日単位に変換）
     returnDate = Math.floor(ans); // 小数点以下を切り捨て
 
     if (isNaN(returnDate) || returnDate == 0) { // NaN(Not a 
@@ -339,8 +315,7 @@ function daycal(y,m,d,l) {
 
   if (y !== "" && m !== "" && d !== "" && l !== "") {
     from = Date.parse(y+"/"+m+"/"+d); // スタート日付
-    l_msec = (new Date(from)).getTime()+1000*60*60*24*l; // 
-××日後のミリ秒を作成
+    l_msec = (new Date(from)).getTime()+1000*60*60*24*l; //××日後のミリ秒を作成
   }
 
   if (from !== '' && l_msec !== '') {

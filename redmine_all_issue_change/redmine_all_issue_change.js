@@ -108,8 +108,7 @@ function issue_ikkatu_no() {
     pjid = parent_issue_status2.issue.project.id;
   //プロジェクト内のチケットを取得
   //全体の数を取得
-  target_ticket_issues  = $.getJSON(red_url + "/projects/" + pjid + 
-"/issues.json?limit=100&status_id=*&parent_id=" + 
+  target_ticket_issues  = $.getJSON(red_url + "/projects/" + pjid + "/issues.json?limit=100&status_id=*&parent_id=" + 
 parent_issue_status2.issue.id);
   timerID2 = setInterval( function(){
     if(target_ticket_issues.readyState == 4){
@@ -133,12 +132,10 @@ function target_change_no(){
     //ターゲットとなるチケットが絞り込めたため、一括変更を開始。
 
     //Noを変更、ターゲットチケットの数だけ繰り返す
-    for (var i = 0 ; i < 
-target_ticket_issues.responseJSON.issues.length; i++){
+    for (var i = 0 ; i < target_ticket_issues.responseJSON.issues.length; i++){
       target_ticket_changed[i] = $.ajax({
         type: "PUT",
-        url: red_url + "/issues/" + 
-target_ticket_issues.responseJSON.issues[i].id +".json",
+        url: red_url + "/issues/" + target_ticket_issues.responseJSON.issues[i].id +".json",
         data:{
           "issue": {
              "custom_field_values":{32:change_No}
@@ -211,8 +208,7 @@ function(){//ステータスが全て読み込み完了になったらエラーチェックを行う
         //終了
         console.log('OK!returnする！');
         clearInterval(timerID2);
-        ch_alart = "親チケットID:"+parent_issue_status2.issue.id 
-+"と子チケットのNoを変更しました"
+        ch_alart = "親チケットID:"+parent_issue_status2.issue.id +"と子チケットのNoを変更しました"
         alert(ch_alart)
         return "end";
         //エラーだったらもう一周
